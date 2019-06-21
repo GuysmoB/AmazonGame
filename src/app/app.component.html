@@ -1,0 +1,5 @@
+<div class="root-container">
+  <app-header class="header" (isReady)="onHeader($event)"></app-header>
+  <app-main *ngIf="isHeaderReady" class="paypal"></app-main>
+  <app-footer *ngIf="isHeaderReady" class="footer"></app-footer>
+</div>

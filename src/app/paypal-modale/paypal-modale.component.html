@@ -1,0 +1,81 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div *ngIf="workflow == STEP_PAYPAL">
+      <ng-content *ngTemplateOutlet="headerPaypal"></ng-content>
+    </div>
+    <div *ngIf="workflow == STEP_TERMS">
+      <ng-content *ngTemplateOutlet="headerTerms"></ng-content>
+    </div>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span class="black-text" aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+      <div *ngIf="workflow == STEP_PAYPAL">
+        <ng-content *ngTemplateOutlet="bodyPaypal"></ng-content>
+      </div>
+      <div *ngIf="workflow == STEP_TERMS">
+        <ng-content *ngTemplateOutlet="bodyTerms"></ng-content>
+      </div>
+  </div>
+</div>
+
+
+
+<ng-template #bodyPaypal>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" #ngForm="ngForm">
+    <div class="row">
+      <div class="col-sm-8">
+        <label>Amount : </label>
+        <input class="form-control" type="number" formControlName="amount">
+        <div *ngIf="amount.invalid && (amount.dirty || amount.touched)" class="alert alert-danger">
+          <div *ngIf="amount.errors.required">The amount is <b>required</b></div>
+          <div *ngIf="amount.errors.min">The minimum is <b>{{ minAmount }}</b></div>
+          <div *ngIf="amount.errors.pattern">The amount must contains <b>non alpha numeric character</b> with a maximum of <b>2</b> decimal numbers</div>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+          <input class="custom-control-input" id="checkboxPaypal" type="checkbox" formControlName="checkbox">
+          <label class="custom-control-label" for="checkboxPaypal">You agree with our</label>
+          <a href="#" (click)="showTerms()"> terms and conditions</a><br/>
+        </div>
+        <button class="btn btn-primary" id="submitButton" type="submit" [disabled]="form.invalid || isSubmitted">Submit</button>
+      </div>
+    </div>
+  </form>
+  <div [ngStyle]="ngStylePaypal()">
+      <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+  </div>
+</ng-template>
+
+<ng-template #bodyTerms>
+  <div> 
+    You agree with terms and conditions about<a target="_blank" href="{{ amazon.TERMS }}"> Amazon gift cards</a>.
+    Gift cards are available in the following website :
+    <ul>
+      <li><a target="_blank" href="{{ amazon.CA }}">{{ amazon.CA }}</a></li>
+      <li><a target="_blank" href="{{ amazon.COM }}">{{ amazon.COM }}</a></li>
+      <li><a target="_blank" href="{{ amazon.DE }}">{{ amazon.DE }}</a></li>
+      <li><a target="_blank" href="{{ amazon.FR }}">{{ amazon.FR }}</a></li>
+      <li><a target="_blank" href="{{ amazon.IT }}">{{ amazon.IT }}</a></li>
+      <li><a target="_blank" href="{{ amazon.IN }}">{{ amazon.IN }}</a></li>
+      <li><a target="_blank" href="{{ amazon.JP }}">{{ amazon.JP }}</a></li>
+      <li><a target="_blank" href="{{ amazon.ES }}">{{ amazon.ES }}</a></li>
+      <li><a target="_blank" href="{{ amazon.UK }}">{{ amazon.UK }}</a></li>
+      </ul>
+  </div> 
+</ng-template>
+
+<ng-template #headerTerms>
+  <div>Terms and conditions</div>
+  <button class="btn-arrow" (click)="showPaypal()">
+    <i class="fas fa-arrow-left"></i>
+  </button>
+</ng-template>
+
+<ng-template #headerPaypal>
+  <div>
+      Get Coins
+  </div>
+</ng-template>

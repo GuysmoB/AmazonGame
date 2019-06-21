@@ -1,0 +1,80 @@
+.paypal-container {
+  /* background: #b6d6f5; */
+  max-width: 1400px;
+  display: flex;
+  justify-content: space-between;
+  padding: 30px;
+  margin: 0 auto 0 auto;
+}
+
+.empty-left {
+  /* background-color: rgb(173, 209, 148); */
+  height: 300px;
+  width: 300px;
+  box-sizing: border-box;
+}
+
+.main {
+  /* background-color: rgb(253, 209, 180); */
+  height: 600px;
+  width: 400px;
+  box-sizing: border-box;
+}
+
+.inputTextClass {
+  margin: auto;
+  width: 300px;
+}
+
+.inputAmountClass {
+  margin: auto;
+  width: 300px;
+}
+
+/*
+  Modal
+*/
+.modal-header {
+  background-color: #14ce23cb;
+  color: #ffffff;
+}
+
+
+/*
+  Liste des utilisateurs
+*/
+.list-user {
+  /* background-color: #fae089; */
+  text-align: center;
+  height: 100%;
+  width: 300px;
+  box-sizing: border-box;
+  border-collapse: collapse;
+}
+
+thead th {
+  font-weight: bold;
+}
+
+tbody th, .list-number {
+  border-right: 1px solid #ddd;
+  width: 20%;
+}
+
+.list-amount {
+  width: 40%;
+}
+
+
+/*
+  Suppression des flèches sur l'input number 1: Chrome/safari 2: moz
+*/
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance:textfield;
+}

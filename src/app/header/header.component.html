@@ -1,0 +1,9 @@
+<!-- Header -->
+<div class="d-flex">
+  <a class="nav-link active" href="#">Active</a>
+  <a class="nav-link" href="#">Link</a>
+  <a class="mr-auto nav-link" href="#">Link</a>
+  <a *ngIf="!user.isAuth" class="nav-link active" (click)="openSignUpModal()">Sign up</a>
+  <a *ngIf="!user.isAuth" class="nav-link active" (click)="openSignInModal()">Log in</a>
+  <a *ngIf="user.isAuth" class="nav-link active" (click)="signOut()">Logout</a>
+</div>

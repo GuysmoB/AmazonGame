@@ -1,0 +1,78 @@
+<div class="modal-content">
+
+  <div class="modal-header">
+    <p class="heading lead">Congratulation !</p>
+    <button *ngIf="workflow !== STEP_WRONG_CAPTCHA" type="button" class="close pull-right" aria-label="Close" (click)="workflow = STEP_EXIT">
+      <span class="black-text" aria-hidden="true">&times;</span>
+    </button>
+    <button *ngIf="workflow === STEP_WRONG_CAPTCHA || workflow === STEP_INFO" type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span class="black-text" aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div *ngIf="workflow == STEP_CAPTCHA">
+      <ng-content *ngTemplateOutlet="bodyCaptcha"></ng-content>
+    </div>
+    <div *ngIf="workflow == STEP_WRONG_CAPTCHA">
+      <ng-content *ngTemplateOutlet="bodyWrongCaptcha"></ng-content>
+    </div>
+    <div *ngIf="workflow == STEP_EMAIL">
+      <ng-content *ngTemplateOutlet="bodyEmail"></ng-content>
+    </div>
+    <div *ngIf="workflow == STEP_EXIT">
+      <ng-content *ngTemplateOutlet="bodyExit"></ng-content>
+    </div>
+    <div *ngIf="workflow == STEP_INFO">
+      <ng-content *ngTemplateOutlet="bodyInfo"></ng-content>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #bodyExit>
+  <p>If you quit now you won't be able to get your Amazon gift card !<br/>
+    Do you want to confirm ?</p>
+  <button type="button" class="btn btn-default" (click)="confirm()">Yes</button>
+  <button type="button" class="btn btn-primary" (click)="decline()">No</button>
+</ng-template>
+      
+<ng-template #bodyWrongCaptcha>
+  <p>Sorry, you didn't solved the captcha in time !</p>
+</ng-template>
+
+<ng-template #bodyInfo>
+  <p>It's all good ! Your Amazon gift card will be sent at {{ email.value }} in the next 24 hours.</p>
+</ng-template>
+
+<ng-template #bodyCaptcha>
+  <div>Temps restant {{ TIMELEFT }}</div>
+  <div [innerHtml]="captchaData"></div>
+  <input type="text" [(ngModel)]="captchaResult"/>
+  <button (click)="getCaptcha()">Get new captcha</button>
+  <button (click)="getCaptchaResult()">Submit</button>
+</ng-template>
+
+<ng-template #bodyEmail>
+  <p>Thank you ! Now we just need an email adress to send your Amazon e-card gift.</p>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <input class="form-control" type="email" formControlName="email" placeholder="Enter your email" >
+    <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+      <div *ngIf="email.errors.required">Email adress required</div>
+      <div *ngIf="email.errors.pattern">Email adress invalid</div>
+    </div>
+    
+    <div class="row">
+      <div class="col-sm-6">
+        <select class="form-control" formControlName="amazonSite">
+          <option value="" disabled selected>Select your site</option>
+          <option *ngFor="let element of amazonArray" >{{ element }}</option>
+        </select>    
+        <div *ngIf="amazonSite.invalid && (amazonSite.dirty || amazonSite.touched)" class="alert alert-danger">
+          <div *ngIf="amazonSite.errors.required">Your must select a site</div>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary" type="submit" [disabled]="form.invalid">Next</button>
+  </form>
+</ng-template>

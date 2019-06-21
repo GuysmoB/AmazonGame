@@ -1,0 +1,25 @@
+{
+    "extends": "../tslint.json",
+    "rules": {
+        "directive-selector": [
+            true,
+            "attribute",
+            "app",
+            "camelCase"
+        ],
+        "no-inferrable-types": [ // Pour eviter les warnings sur les type string entre autre
+          true,
+          "ignore-params",
+          "ignore-properties"
+        ],
+        "component-selector": [
+            true,
+            "element",
+            "app",
+            "kebab-case"
+        ],
+        "max-line-length": [
+          false
+        ]
+    }
+}

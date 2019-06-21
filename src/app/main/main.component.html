@@ -1,0 +1,49 @@
+<div class="paypal-container">
+
+  <div *ngIf="isDataReceived" class="empty-left">
+    <p>Total participants : {{ allParticipants.length }}</p>
+    <p>Next step reward : {{ nextStepReward }}</p>
+    <p *ngIf="user.isAuth">My balance : {{ backService.round(user.balance, 2) }}</p>
+    <button *ngIf="user.isAuth" class="btn btn-primary" (click)="openPaypalModal()">Get Coins</button>
+  </div> 
+
+  <div *ngIf="isDataReceived" class="main">
+    <form [formGroup]="form" [ngStyle]="authStyle()" (ngSubmit)="onSubmit()">
+      <!-- <h2>The richest is {{ allParticipants[0].val().name }} with {{ allParticipants[0].val().amount }}€</h2><br/> -->
+      <div class="inputTextClass" >
+        <input class="form-control" type="text" id="inputTextId" formControlName="name" placeholder="Enter your name"/>
+        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+          <div *ngIf="name.errors.required">Your name is <b>required</b></div>
+          <div *ngIf="name.errors.minlength">Your name is too <b>short</b></div>
+          <div *ngIf="name.errors.maxlength">Your name is too <b>long</b></div>
+          <div *ngIf="name.errors.pattern">Your name contains <b>non alpha numeric character</b></div>
+        </div>
+      </div><br/>
+      <div class="inputAmountClass">
+        <input class="form-control" type="number" id="inputAmountId" formControlName="amount" [readonly]="true">
+      </div>
+      <button class="btn btn-primary" type="submit" [disabled]="form.invalid">Validate</button>
+    </form>
+  </div>
+
+  
+  <!-- Table des utilisateurs -->
+  <div class="list-user">
+    <table mdbTable small="true">
+      <thead>
+      <tr>
+        <th class="list-number" scope="col">#</th>
+        <th class="list-amount" scope="col">€</th>
+        <th class="list-name" scope="col">Name</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let element of allParticipants; index as i">
+        <th *ngIf="i < 10" scope="row">{{ i + 1 }}</th>
+        <td *ngIf="i < 10">{{ element.val().amount }}</td>
+        <td *ngIf="i < 10">{{ element.val().name }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
